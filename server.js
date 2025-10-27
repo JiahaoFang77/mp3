@@ -13,8 +13,12 @@ var app = express();
 // Use environment defined port or 3000
 var port = process.env.PORT || 3000;
 
-// Connect to a MongoDB --> Uncomment this once you have a connection string!!
-//mongoose.connect(process.env.MONGODB_URI,  { useNewUrlParser: true });
+// Connect to a MongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+mongoose.connection.once('open', function() {
+    console.log('Successfully connected to MongoDB Atlas...');
+});
 
 // Allow CORS so that backend and frontend could be put on different servers
 var allowCrossDomain = function (req, res, next) {
